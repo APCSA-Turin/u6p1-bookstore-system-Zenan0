@@ -38,10 +38,12 @@ public class Main {
             }
             if (userOption == 2) {
                 System.out.println("Which book do you want to upgrade the quantity of? (Enter serial number)");
-                int bookNum = scan.nextInt();
+                String bookNum = scan.nextLine();
                 System.out.println("How much do you want to increase the quantity by?");
                 int increaseQuantity = scan.nextInt();
-                Book selectedBook = store.getBooks()[bookNum];
+                scan.nextLine();
+                int bookIdx = searchBook(bookNum, store.getBooks());
+                Book selectedBook = store.getBooks()[bookIdx];
                 selectedBook.setQuantity(selectedBook.getQuantity() + increaseQuantity);
                 System.out.println("The quantity has been increased!");
             }
@@ -58,7 +60,7 @@ public class Main {
                 if (bookIdx == -99) {
                     System.out.println("No book with that name is in the library.");
                 } else {
-                    System.out.println("The book you are looking for has the serial number " + bookIdx + ".");
+                    System.out.println(bookList[bookIdx].bookInfo());
                 }
             }
             if (userOption == 4) {
@@ -73,14 +75,16 @@ public class Main {
                 System.out.println("You have been registered! Your ID number is " + IdGenerate.getCurrentId() + ".");
             }
             if (userOption == 6) {
-                System.out.println(store.bookStoreUserInfo());
+                System.out.println(store.bookStoreUserInfo() + "\n");
             }
             if (userOption == 7) {
                 System.out.println("Enter your ID:");
                 int Id = scan.nextInt();
+                scan.nextLine();
                 System.out.println("What book would you like to check out? (Enter Serial Number)");
-                int bookNum = scan.nextInt();
-                Book selectedBook = store.getBooks()[bookNum];
+                String serialNum = scan.nextLine();
+                int bookIdx = searchBook(serialNum, store.getBooks());
+                Book selectedBook = store.getBooks()[bookIdx];
                 User student = store.getUsers()[Id - 100];
                 Book[] newBookList = student.getBooks();
                 Boolean isNull = false;
@@ -105,7 +109,7 @@ public class Main {
                 User student = store.getUsers()[Id - 100];
                 Book[] newBookList = student.getBooks();
                 for (int i = 0; i < newBookList.length; i++) {
-                    if (newBookList[i] != null && serialNo == newBookList[i].getIsbn()) {
+                    if (newBookList[i] != null && serialNo.equals(newBookList[i].getIsbn())) {
                         newBookList[i] = null;
                     }
                 }
@@ -151,5 +155,14 @@ public class Main {
         }
         System.out.println("Thank you for checking out the GFG Library!");
         scan.close();
+    }
+
+    public static int searchBook(String serialNum, Book[] bookList) {
+        for (int i = 0; i < bookList.length; i++) {
+            if (serialNum.equals(bookList[i].getIsbn())) {
+                return i;
+            }
+        }
+        return -99;
     }
 }

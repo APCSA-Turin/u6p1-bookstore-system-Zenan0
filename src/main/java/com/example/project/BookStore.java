@@ -161,8 +161,6 @@ public class BookStore{
         for (int i = 0; i < users.length; i++) {
             if (users[i] != null) {
                 str += users[i].userInfo();
-            } else {
-                str += "empty\n";
             }
         }
         return str;
