@@ -159,7 +159,11 @@ public class BookStore{
     public String bookStoreUserInfo() { //you are not tested on this method but use it for debugging purposes
         String str = "Users: \n";
         for (int i = 0; i < users.length; i++) {
-            str += users[i].userInfo();
+            if (users[i] != null) {
+                str += users[i].userInfo();
+            } else {
+                str += "empty\n";
+            }
         }
         return str;
     }
